@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Operacional 1995</title>
+  <link rel="stylesheet" href="style.css">
+	<meta name="description" content="Jogo Snake retro para crianças! Controles simples com setas do teclado.">
+<meta name="keywords" content="snake, jogo, crianças, retro, educativo">
+
+</head>
+<body>
+  <!-- Tela de inicialização -->
+  <div id="boot-screen" class="boot-screen">
+    <div class="boot-box">
+      <p class="boot-title">MICROSOFT WINDOWS 95</p>
+      <p class="boot-sub">Iniciando sistema...</p>
+      <div class="boot-bar-track">
+        <div id="boot-bar-fill" class="boot-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop -->
+  <main class="desktop" onclick="fecharMenuAoClicarFora(event)">
+    <div class="icon" style="top: 20px; left: 20px;" onclick="abrirJanela('meu-computador')">
+      <img src="assets/icons/computer.png" alt="Meu Computador" onerror="this.style.visibility='hidden'">
+      <span>Meu Computador</span>
+    </div>
+
+    <div class="icon" style="top: 115px; left: 20px;" onclick="acionarLixeira()">
+      <img src="assets/icons/trash.png" alt="Lixeira" onerror="this.style.visibility='hidden'">
+      <span>Lixeira</span>
+    </div>
+
+    <div class="icon" style="top: 210px; left: 20px;" onclick="abrirNavegador()">
+      <img src="assets/icons/browser.png" alt="Navegador" onerror="this.style.visibility='hidden'">
+      <span>Navegador</span>
+    </div>
+
+    <div class="icon" style="top: 305px; left: 20px;" onclick="abrirJogoSnake()">
+      <img src="assets/icons/game.png" alt="Jogo Snake" onerror="this.style.visibility='hidden'">
+      <span>Jogo Snake</span>
+    </div>
+
+    <div class="icon" style="top: 400px; left: 20px;" onclick="abrirTerminal()">
+      <img src="assets/icons/terminal.png" alt="Terminal MS-DOS" onerror="this.style.visibility='hidden'">
+      <span>MS-DOS</span>
+    </div>
+  </main>
+
+  <!-- Menu Iniciar -->
+  <div id="menu-iniciar" class="menu">
+    <div class="menu-sidebar">WIN95</div>
+    <div class="menu-items">
+      <div class="menu-item" onclick="abrirTerminal(); alternarMenuIniciar();">Terminal MS-DOS</div>
+      <div class="menu-item" onclick="abrirJogoSnake(); alternarMenuIniciar();">Jogo Snake</div>
+      <div class="menu-item" onclick="abrirNavegador(); alternarMenuIniciar();">Navegador</div>
+      <hr class="menu-divider">
+      <div class="menu-item" onclick="reiniciarSistema()">Reiniciar</div>
+      <div class="menu-item" onclick="desligarSistema()">Desligar</div>
+    </div>
+  </div>
+
+  <!-- Janela: Meu Computador -->
+  <div id="meu-computador-window" class="window" style="width: 460px; height: 300px;">
+    <div class="window-header">
+      <span>Meu Computador</span>
+      <button class="close-btn" onclick="fecharJanela('meu-computador-window')">X</button>
+    </div>
+    <div class="window-content">
+      <p><strong>Disco Local (C:)</strong> — Simulador retro em HTML, CSS e JS puro.</p>
+      <p>Use os ícones na área de trabalho para abrir o Navegador, o Jogo Snake ou o MS-DOS.</p>
+    </div>
+  </div>
+
+  <!-- Janela: Navegador -->
+  <div id="navegador-window" class="window" style="width: 560px; height: 420px;">
+    <div class="window-header">
+      <span>Navegador</span>
+      <button class="close-btn" onclick="fecharJanela('navegador-window')">X</button>
+    </div>
+    <div class="window-content browser-content">
+      <p id="browser-status" class="browser-status">Carregando...</p>
+      <iframe id="browser-iframe" src="https://baidu.com"></iframe>   
+    </div>
+  </div>
+
+  <!-- Janela: Jogo Snake -->
+  <div id="snake-window" class="window" style="width: 440px; height: 495px;">
+    <div class="window-header">
+      <span>Jogo Snake</span>
+      <button class="close-btn" onclick="fecharJanela('snake-window')">X</button>
+    </div>
+    <div class="window-content snake-content">
+      <div class="snake-hud">
+        <span>Pontuação: <strong id="score">0</strong></span>
+        <button class="retro-btn" onclick="iniciarJogoSnake()">Reiniciar Jogo</button>
+      </div>
+      <canvas id="snake-canvas" width="400" height="400"></canvas>
+      <p class="snake-hint">Use as setas do teclado para mover.</p>
+    </div>
+  </div>
+
+  <!-- Janela: Terminal MS-DOS -->
+  <div id="terminal-window" class="window" style="width: 580px; height: 380px;">
+    <div class="window-header">
+      <span>MS-DOS Prompt</span>
+      <button class="close-btn" onclick="fecharJanela('terminal-window')">X</button>
+    </div>
+    <div class="window-content terminal-content" onclick="document.getElementById('terminal-input').focus()">
+      <div id="terminal-output" class="terminal-output">
+        <div>Microsoft(R) Windows 95</div>
+        <div>(C)Copyright Microsoft Corp 1981-1995.</div>
+        <div>Digite <strong>help</strong> para ver comandos.</div>
+        <br>
+      </div>
+      <div class="terminal-line">
+        <span class="terminal-prompt">C:\&gt;</span>
+        <input id="terminal-input" type="text" class="terminal-input" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de tarefas -->
+  <footer class="taskbar">
+    <button id="start-btn" class="start-button" onclick="alternarMenuIniciar()">Iniciar</button>
+    <div id="taskbar-icons" class="taskbar-icons"></div>
+    <div id="clock" class="clock">00:00:00</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
